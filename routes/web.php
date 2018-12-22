@@ -18,8 +18,7 @@
 
 
 Route::get('/', 'AwalController@index');
-Route::get('/coba/{id}', 'CrudController@tampilkanID');
-Route::get('/show', 'CrudController@index');
+
 
 // Route::get('/tambah', function () {
 //     $vendor = new Vendor;
