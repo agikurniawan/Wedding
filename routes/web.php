@@ -19,19 +19,6 @@
 
 Route::get('/', 'AwalController@index');
 
-
-// Route::get('/tambah', function () {
-//     $vendor = new Vendor;
-//     $vendor->nama="Asep";
-//     $vendor->alamat="jl.pasir impun";
-//     $vendor->email="aa@mail.com";
-//     $vendor->telepon="0899992222";
-//     $vendor->gambar="I.jpg";
-//     $vendor->jasa="Cetring";
-
-//     $vendor->save();
-// });
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
