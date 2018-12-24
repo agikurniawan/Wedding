@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
+    <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="keywords" content="">
@@ -31,12 +31,18 @@
 	<!-- Google web font 
    ================================================== -->	
   <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,300' rel='stylesheet' type='text/css'>
+  
+  
 	
 </head>
 <body>
+
 @include('layouts.header')
+
     @yield('content')
+
 @include('layouts.footer')
+
 <!-- Javascript 
 ================================================== -->
 <script src="js/jquery.js"></script>

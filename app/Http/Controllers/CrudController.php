@@ -19,11 +19,6 @@ class CrudController extends Controller
         return view('awal.show',compact('datas'));
     }
 
-    public function tampilkanID($id)
-    {
-        $tampilkan = Vendor::find($id);
-        return view('awal.show', compact('tampilkan'));
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -33,6 +28,7 @@ class CrudController extends Controller
     public function create()
     {
         //
+        return view('crud.add');
     }
 
     /**
@@ -44,6 +40,29 @@ class CrudController extends Controller
     public function store(Request $request)
     {
         //
+        $this->validate($request,
+        ['nama' => 'required',
+        'alamat' => 'required',
+        'email' => 'required',
+        'telepon' => 'required',
+        'jasa' => 'required']);
+
+        $tambah = new Vendor();
+        $tambah->nama = $request['nama'];
+        $tambah->alamat = $request['alamat'];
+        $tambah->email = $request['email'];
+        $tambah->telepon = $request['telepon'];
+        $tambah->jasa = $request['jasa'];
+
+        // Disini proses mendapatkan judul dan memindahkan letak gambar ke folder image
+        $file       = $request->file('gambar');
+        $fileName   = $file->getClientOriginalName();
+        $request->file('gambar')->move("images/", $fileName);
+
+        $tambah->gambar = $fileName;
+        $tambah->save();
+
+        return redirect()->to('/');
     }
 
     /**
@@ -55,6 +74,7 @@ class CrudController extends Controller
     public function show($id)
     {
         //
+
     }
 
     /**

@@ -14,7 +14,12 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <a href="{{url('add')}}">Tambah Jasa</a><br>
+                    <a href="{{url('showdekor')}}">Dekorasi</a><br>
+                    <a href="{{url('showfoto')}}">Fotografer</a><br>
+                    <a href="{{url('showvenue')}}">Venue</a><br>
+                    <a href="{{url('showketring')}}">Catering</a><br>
+                    <a href="{{url('showrias')}}">Rias dan Busana</a><br>
                 </div>
             </div>
         </div>
