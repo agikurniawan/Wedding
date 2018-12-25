@@ -29,7 +29,6 @@ before_script:
   - php artisan key:generate
 # Test
 script:
- - ./vendor/bin/phpunit
 
 #deploy
 after_succes:
