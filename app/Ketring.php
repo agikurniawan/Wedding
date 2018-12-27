@@ -10,7 +10,7 @@ class Ketring extends Model
 {
     //
     protected $table = 'ketring';
-    protected $fillable = ['user_id','nama','alamat','slug_ketring','harga','gambar'];
+    protected $fillable = ['user_id','nama','alamat','no_wa','slug_ketring','harga','gambar'];
 
     public function user(){
         return $this->belongsTo(User::class);

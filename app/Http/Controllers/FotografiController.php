@@ -56,6 +56,7 @@ class FotografiController extends Controller
         $tambah = new Fotografi();
         $tambah->nama = $request->get('nama');
         $tambah->alamat = $request->get('alamat');
+        $tambah->no_wa = $request->get('no_wa');
         $tambah->user_id =  auth()->id();
         $tambah->slug_foto = Str::slug($request->get('nama'));
         $tambah->harga = $request->get('harga');

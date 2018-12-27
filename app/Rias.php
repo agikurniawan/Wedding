@@ -12,7 +12,7 @@ class Rias extends Model
 {
     //
     protected $table = 'riasb';
-    protected $fillable = ['user_id','nama','alamat','slug_rias','harga','gambar'];
+    protected $fillable = ['user_id','nama','alamat','no_wa','slug_rias','harga','gambar'];
 
     public function user(){
         return $this->belongsTo(User::class);
