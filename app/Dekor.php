@@ -10,7 +10,7 @@ class Dekor extends Model
 {
     //
     protected $table = 'dekorasi';
-    protected $fillable = ['user_id','nama','alamat','slug_dekor','harga','gambar'];
+    protected $fillable = ['user_id','nama','alamat','no_wa','slug_dekor','harga','gambar'];
 
     public function user(){
         return $this->belongsTo(User::class);

@@ -56,6 +56,7 @@ class KetringController extends Controller
         
         $tambah->nama = $request->get('nama');
         $tambah->alamat = $request->get('alamat');
+        $tambah->no_wa = $request->get('no_wa');
         $tambah->user_id =  auth()->id();
         $tambah->slug_ketring = Str::slug($request->get('nama'));
         $tambah->harga = $request->get('harga');

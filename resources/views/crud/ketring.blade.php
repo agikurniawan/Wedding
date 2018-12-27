@@ -38,6 +38,12 @@
     </div>
     <div class="row">
         <div class="input-field col s12">
+            <input type="text" class="validate" name="no_wa">
+            <label for="title">NO tlp</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
           <textarea id="textarea1" class="materialize-textarea" name="harga"></textarea>
           <label for="textarea1">Harga</label>
         </div>
