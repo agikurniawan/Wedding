@@ -4,11 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Fotografi;
+use App\User;
+
 class Fotografi extends Model
 {
     //
     
         protected $table = 'foto';
-        protected $fillable = ['harga','gambar'];
+        protected $fillable = ['user_id','nama','alamat','slug_foto','harga','gambar'];
+
+        public function user(){
+            return $this->belongsTo(User::class);
+        }
 
 }

@@ -73,7 +73,7 @@
                 <div class="portfolio-thumb">
                   <img src="{{ asset('images/'.$data->gambar)}}" class="img-responsive" style="max-width:350px;max-height:350px;" alt="Portfolio">
                   <div class="portfolio-overlay"> 
-                    <a href="">
+                    <a href="{{url('readdekor', $data->slug_dekor)}}">
                       <h3>DETAIL LAINNYA</h3>
                     </a>
                     <div class="portfolio-item">

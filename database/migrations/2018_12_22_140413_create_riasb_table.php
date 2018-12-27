@@ -15,9 +15,14 @@ class CreateRiasbTable extends Migration
     {
         Schema::create('riasb', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->string('nama');
+            $table->string('slug');
             $table->string('harga');
             $table->string('gambar');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
         });
     }
 

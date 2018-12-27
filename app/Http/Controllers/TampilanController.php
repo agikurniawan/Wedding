@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Dekor;
 use App\Ketring;
 use App\Fotografi;
 use App\Venue;
 use App\Rias;
+use App\User;
 
 class TampilanController extends Controller
 {
@@ -54,6 +56,18 @@ class TampilanController extends Controller
         return view('crud.dekorasi');
     }
 
+    public function detail()
+    {
+        //
+        return view('detail.index');
+    }
+
+    public function lainnya()
+    {
+        //
+        return view('crud.read.rmdekor');
+    }
+
 
     public function home()
     {
@@ -77,12 +91,15 @@ class TampilanController extends Controller
     public function storedekor(Request $request)
     {
         //
-        $this->validate($request,
-        ['harga' => 'required']);
+        // $this->validate($request,
+        // ['harga' => 'required']);
 
         $tambah = new Dekor();
-        $tambah->harga = $request['harga'];
-        
+        $tambah->nama = $request->get('nama');
+        $tambah->alamat = $request->get('alamat');
+        $tambah->user_id =  auth()->id();
+        $tambah->slug_dekor = Str::slug($request->get('nama'));
+        $tambah->harga = $request->get('harga');
 
         // Disini proses mendapatkan judul dan memindahkan letak gambar ke folder image
         $file       = $request->file('gambar');
@@ -92,7 +109,7 @@ class TampilanController extends Controller
         $tambah->gambar = $fileName;
         $tambah->save();
 
-        return redirect()->to('/');
+        return redirect()->to('/tampilan');
     }
     
 
@@ -104,11 +121,11 @@ class TampilanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
         //
 
-        $tampilkan = Dekor::find($id);
+        $tampilkan = Dekor::where('slug_dekor',$slug)->first();
         return view('crud.read.rmdekor',compact('tampilkan'));
     }
 
@@ -137,6 +154,19 @@ class TampilanController extends Controller
         //
         $update = Dekor::where('id', $id)->first();
         $update->harga = $request['harga'];
+        
+        if($request->file('gambar') == "")
+        {
+            $update->gambar = $update->gambar;
+        } 
+        else
+        {
+            $file       = $request->file('gambar');
+            $fileName   = $file->getClientOriginalName();
+            $request->file('gambar')->move("images/", $fileName);
+            $update->gambar = $fileName;
+        }
+        
         $update->update();
 
         return redirect()->to('/showdekor');

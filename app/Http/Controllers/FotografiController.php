@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Fotografi;
+use App\User;
 
 class FotografiController extends Controller
 {
@@ -50,12 +52,13 @@ class FotografiController extends Controller
     public function storefoto(Request $request)
     {
         //
-        $this->validate($request,
-        ['harga' => 'required']);
-
-        $tambah = new Fotografi();
-        $tambah->harga = $request['harga'];
         
+        $tambah = new Fotografi();
+        $tambah->nama = $request->get('nama');
+        $tambah->alamat = $request->get('alamat');
+        $tambah->user_id =  auth()->id();
+        $tambah->slug_foto = Str::slug($request->get('nama'));
+        $tambah->harga = $request->get('harga');
 
         // Disini proses mendapatkan judul dan memindahkan letak gambar ke folder image
         $file       = $request->file('gambar');
@@ -65,7 +68,7 @@ class FotografiController extends Controller
         $tambah->gambar = $fileName;
         $tambah->save();
 
-        return redirect()->to('/');
+        return redirect()->to('/tampilan');
     }
 
     /**
@@ -74,10 +77,10 @@ class FotografiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
         //
-        $tampilkan = Fotografi::find($id);
+        $tampilkan = Fotografi::where('slug_foto',$slug)->first();
         return view('crud.read.rmfoto',compact('tampilkan'));
     }
 
@@ -87,9 +90,11 @@ class FotografiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function editfoto($id)
     {
         //
+        $tampiledit = Fotografi::where('id', $id)->first();
+        return view('crud.update.updatefoto')->with('tampiledit', $tampiledit);
     }
 
     /**
@@ -102,6 +107,24 @@ class FotografiController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $update = Fotografi::where('id', $id)->first();
+        $update->harga = $request['harga'];
+        
+        if($request->file('gambar') == "")
+        {
+            $update->gambar = $update->gambar;
+        } 
+        else
+        {
+            $file       = $request->file('gambar');
+            $fileName   = $file->getClientOriginalName();
+            $request->file('gambar')->move("images/", $fileName);
+            $update->gambar = $fileName;
+        }
+        
+        $update->update();
+
+        return redirect()->to('/showfoto');
     }
 
     /**
@@ -113,5 +136,9 @@ class FotografiController extends Controller
     public function destroy($id)
     {
         //
+        $hapus = Fotografi::find($id);
+        $hapus->delete();
+
+        return redirect()->to('/showfoto');
     }
 }

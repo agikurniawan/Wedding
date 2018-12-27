@@ -109,51 +109,6 @@
     </nav>
 </div>
 
-<!-- Header section
-================================================== -->
-<section id="header">
-	<div class="container">
-		<div class="row">
-      <div id=" myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- indikator -->
-        <ol class="carousel-indicators">
-          <li data-target="#myCarousel" style="color: salmon;" data-slide-to="0" class="active"></li>          
-          <li data-target="#myCarousel" data-slide-to="1"></li>          
-          <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-          <div class="item active">
-            <a href="#">
-              <img src="images/couple.png" style="width: 100%; max-height: 600px;" >
-            </a>
-          </div>
-          <div class="item">
-            <a href="#">
-              <img src="images/discount.png" style="width: 100%; max-height: 600px;">
-            </a>
-          </div>          
-          <div class="item">
-            <a href="#">
-              <img src="images/event.png" style="width: 100%; max-height: 521px;">
-            </a>
-          </div>
-        </div>
-         <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-           <span class="glyphicon glyphicon-chevron-left"></span>
-           <span class="sr-only">Previous</span>
-         </a>
-         <a class="right carousel-control" href="#myCarousel" data-slide="next">
-           <span class="glyphicon glyphicon-chevron-right"></span>
-           <span class="sr-only">Next</span>
-         </a>
-      </div>
-      <div class="jargon"> 
-        <h1> Temukan Vendor Terbaik Anda</h1>
-      </div>
-		</div>
-  </div>	
-</section>
-
 
 <!-- Portfolio section
 ================================================== -->
@@ -181,7 +136,7 @@
                 <div class="portfolio-thumb">
                   <img src="{{ asset('images/'.$data->gambar)}}" class="img-responsive" style="max-width:350px;max-height:350px;" alt="Portfolio">
                   <div class="portfolio-overlay"> 
-                    <a href="">
+                    <a href="{{url('readdekor', $data->slug_dekor)}}">
                       <h3>DETAIL LAINNYA</h3>
                     </a>
                     <div class="portfolio-item">
@@ -197,7 +152,7 @@
                 <div class="portfolio-thumb">
                   <img src="{{ asset('images/'.$ketring->gambar)}}" class="img-responsive" style="max-width:350px;max-height:350px;" alt="Portfolio">
                   <div class="portfolio-overlay">
-                    <a href="">
+                    <a href="{{url('readketring', $ketring->slug_ketring)}}">
                       <h3>DETAIL LAINNYA</h3>
                     </a>
                     <div class="portfolio-item">
@@ -213,7 +168,7 @@
                 <div class="portfolio-thumb">
                   <img src="{{ asset('images/'.$venue->gambar)}}" class="img-responsive" style="max-width:350px;max-height:350px;" alt="Portfolio">
                   <div class="portfolio-overlay"> 
-                    <a href="">
+                    <a href="{{url('readvenue', $venue->slug_venue)}}">
                       <h3>DETAIL LAINNYA</h3>
                     </a>
                     <div class="portfolio-item">
@@ -230,7 +185,7 @@
                 <div class="portfolio-thumb">
                   <img src="{{ asset('images/'.$foto->gambar)}}" class="img-responsive" style="max-width:350px;max-height:350px;" alt="Portfolio">
                   <div class="portfolio-overlay"> 
-                    <a href="">
+                    <a href="{{url('readfoto', $foto->slug_foto)}}">
                       <h3>DETAIL LAINNYA</h3>
                     </a>
                     <div class="portfolio-item">
@@ -247,7 +202,7 @@
                 <div class="portfolio-thumb">
                   <img src="{{ asset('images/'.$rias->gambar)}}" class="img-responsive" style="max-width:350px;max-height:350px;" alt="Portfolio">
                   <div class="portfolio-overlay"> 
-                    <a href="">
+                    <a href="{{url('readrias', $rias->slug_rias)}}">
                       <h3>DETAIL LAINNYA</h3>
                     </a>
                     <div class="portfolio-item">

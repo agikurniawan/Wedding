@@ -25,7 +25,7 @@
                         <div class="menu-web">
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a href="{{url('login')}}"> Login</a></li>
-                                <li><a href="{{url('register')}}">Menjadi Vendor</a></li>
+                                <li><a href="{{url('register')}}">Register</a></li>
                             </ul>
                         </div>
 

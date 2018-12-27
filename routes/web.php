@@ -22,28 +22,41 @@ Route::get('/add', 'TampilanController@create');
 
 // Dekorasi
 Route::get('/showdekor', 'TampilanController@liat');
-Route::get('/readdekor/{id}', 'TampilanController@show');
-Route::get('/editdekor/{id}', 'TampilanController@editdekor');
-Route::post('/update/{id}', 'TampilanController@update');
-Route::get('/delete/{id}', 'TampilanController@destroy');
+Route::get('/readdekor/{user_id}', 'TampilanController@show');
+Route::get('/editdekor/{slug}', 'TampilanController@editdekor');
+Route::post('/update/{slug}', 'TampilanController@update');
+Route::get('/deletedekor/{slug}', 'TampilanController@destroy');
+Route::get('/lainnya', 'TampilanController@lainnya');
+
 
 
 //Fotografer
 Route::get('/showfoto', 'FotografiController@liat');
-Route::get('/readfoto/{id}', 'FotografiController@show');
+Route::get('/readfoto/{slug}', 'FotografiController@show');
+Route::get('/editfoto/{id}', 'FotografiController@editfoto');
+Route::post('/update/{id}', 'FotografiController@update');
+Route::get('/deletefoto/{id}', 'FotografiController@destroy');
 
 //ketring
 Route::get('/showketring', 'KetringController@liat');
-Route::get('/readketring/{id}', 'KetringController@show');
+Route::get('/readketring/{slug}', 'KetringController@show');
+Route::get('/editketring/{id}', 'KetringController@editketring');
+Route::post('/update/{id}', 'KetringController@update');
+Route::get('/deleteketring/{id}', 'KetringController@destroy');
 
 //venue
 Route::get('/showvenue', 'VenueController@liat');
-Route::get('/readvenue/{id}', 'VenueController@show');
+Route::get('/readvenue/{slug}', 'VenueController@show');
+Route::get('/editvenue/{id}', 'VenueController@editvenue');
+Route::post('/update/{id}', 'VenueController@update');
+Route::get('/deletevenue/{id}', 'VenueController@destroy');
 
 //Rias dan Busana
 Route::get('/showrias', 'RiasController@liat');
-Route::get('/readrias/{id}', 'RiasController@show');
-
+Route::get('/readrias/{slug}', 'RiasController@show');
+Route::get('/editrias/{id}', 'RiasController@editrias');
+Route::post('/update/{id}', 'RiasController@update');
+Route::get('/deleterias/{id}', 'RiasController@destroy');
 
 Route::get('/dekorasi', 'TampilanController@dekorasi');
 Route::get('/ketring', 'KetringController@ketring');

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Ketring;
+use App\User;
 
 class KetringController extends Controller
 {
@@ -27,6 +29,7 @@ class KetringController extends Controller
         //
     }
 
+
     public function ketring()
     {
         //
@@ -49,12 +52,13 @@ class KetringController extends Controller
     public function storeketring(Request $request)
     {
         //
-        $this->validate($request,
-        ['harga' => 'required']);
-
         $tambah = new Ketring();
-        $tambah->harga = $request['harga'];
         
+        $tambah->nama = $request->get('nama');
+        $tambah->alamat = $request->get('alamat');
+        $tambah->user_id =  auth()->id();
+        $tambah->slug_ketring = Str::slug($request->get('nama'));
+        $tambah->harga = $request->get('harga');
 
         // Disini proses mendapatkan judul dan memindahkan letak gambar ke folder image
         $file       = $request->file('gambar');
@@ -64,7 +68,7 @@ class KetringController extends Controller
         $tambah->gambar = $fileName;
         $tambah->save();
 
-        return redirect()->to('/');
+        return redirect()->to('/tampilan');
     }
 
     /**
@@ -73,10 +77,10 @@ class KetringController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
         //
-        $tampilkan = Ketring::find($id);
+        $tampilkan = Ketring::where('slug_ketring',$slug)->first();
         return view('crud.read.rmketring',compact('tampilkan'));
     }
 
@@ -86,9 +90,11 @@ class KetringController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function editketring($id)
     {
         //
+        $tampiledit = Ketring::where('id', $id)->first();
+        return view('crud.update.updateketring')->with('tampiledit', $tampiledit);
         
     }
 
@@ -102,6 +108,24 @@ class KetringController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $update = Ketring::where('id', $id)->first();
+        $update->harga = $request['harga'];
+        
+        if($request->file('gambar') == "")
+        {
+            $update->gambar = $update->gambar;
+        } 
+        else
+        {
+            $file       = $request->file('gambar');
+            $fileName   = $file->getClientOriginalName();
+            $request->file('gambar')->move("images/", $fileName);
+            $update->gambar = $fileName;
+        }
+        
+        $update->update();
+
+        return redirect()->to('/showketring');
     }
 
     /**
@@ -113,5 +137,9 @@ class KetringController extends Controller
     public function destroy($id)
     {
         //
+        $hapus = Ketring::find($id);
+        $hapus->delete();
+
+        return redirect()->to('/showketring');
     }
 }

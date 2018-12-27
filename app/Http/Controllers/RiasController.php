@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Rias;
+use App\User;
 
 class RiasController extends Controller
 {
@@ -49,12 +51,12 @@ class RiasController extends Controller
     public function storerias(Request $request)
     {
         //
-        $this->validate($request,
-        ['harga' => 'required']);
-
         $tambah = new Rias();
-        $tambah->harga = $request['harga'];
-        
+        $tambah->nama = $request->get('nama');
+        $tambah->alamat = $request->get('alamat');
+        $tambah->user_id =  auth()->id();
+        $tambah->slug_rias = Str::slug($request->get('nama'));
+        $tambah->harga = $request->get('harga');
 
         // Disini proses mendapatkan judul dan memindahkan letak gambar ke folder image
         $file       = $request->file('gambar');
@@ -64,7 +66,7 @@ class RiasController extends Controller
         $tambah->gambar = $fileName;
         $tambah->save();
 
-        return redirect()->to('/');
+        return redirect()->to('/tampilan');
     }
 
     /**
@@ -73,10 +75,10 @@ class RiasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
         //
-        $tampilkan = Rias::find($id);
+        $tampilkan = Rias::where('slug_rias',$slug)->first();
         return view('crud.read.rmrias',compact('tampilkan'));
     }
 
@@ -86,9 +88,11 @@ class RiasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function editrias($id)
     {
         //
+        $tampiledit = Rias::where('id', $id)->first();
+        return view('crud.update.updaterias')->with('tampiledit', $tampiledit);
     }
 
     /**
@@ -101,6 +105,24 @@ class RiasController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $update = Rias::where('id', $id)->first();
+        $update->harga = $request['harga'];
+        
+        if($request->file('gambar') == "")
+        {
+            $update->gambar = $update->gambar;
+        } 
+        else
+        {
+            $file       = $request->file('gambar');
+            $fileName   = $file->getClientOriginalName();
+            $request->file('gambar')->move("images/", $fileName);
+            $update->gambar = $fileName;
+        }
+        
+        $update->update();
+
+        return redirect()->to('/showrias');
     }
 
     /**
@@ -112,5 +134,9 @@ class RiasController extends Controller
     public function destroy($id)
     {
         //
+        $hapus = Rias::find($id);
+        $hapus->delete();
+
+        return redirect()->to('/showrias');
     }
 }

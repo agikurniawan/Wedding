@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Venue;
+use App\User;
 
 class VenueController extends Controller
 {
@@ -49,12 +51,11 @@ class VenueController extends Controller
     public function storevenue(Request $request)
     {
         //
-        $this->validate($request,
-        ['harga' => 'required']);
-
         $tambah = new Venue();
-        $tambah->harga = $request['harga'];
-        
+        $tambah->nama = $request->get('nama');
+        $tambah->user_id =  auth()->id();
+        $tambah->slug_venue = Str::slug($request->get('nama'));
+        $tambah->harga = $request->get('harga');
 
         // Disini proses mendapatkan judul dan memindahkan letak gambar ke folder image
         $file       = $request->file('gambar');
@@ -64,7 +65,7 @@ class VenueController extends Controller
         $tambah->gambar = $fileName;
         $tambah->save();
 
-        return redirect()->to('/');
+        return redirect()->to('/tampilan');
     }
 
     /**
@@ -73,10 +74,10 @@ class VenueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
         //
-        $tampilkan = Venue::find($id);
+        $tampilkan = Venue::where('slug_venue',$slug)->first();
         return view('crud.read.rmvanue',compact('tampilkan'));
     }
 
@@ -86,9 +87,11 @@ class VenueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function editvenue($id)
     {
         //
+        $tampiledit = Venue::where('id', $id)->first();
+        return view('crud.update.updatevenue')->with('tampiledit', $tampiledit);
     }
 
     /**
@@ -101,6 +104,24 @@ class VenueController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $update = Venue::where('id', $id)->first();
+        $update->harga = $request['harga'];
+        
+        if($request->file('gambar') == "")
+        {
+            $update->gambar = $update->gambar;
+        } 
+        else
+        {
+            $file       = $request->file('gambar');
+            $fileName   = $file->getClientOriginalName();
+            $request->file('gambar')->move("images/", $fileName);
+            $update->gambar = $fileName;
+        }
+        
+        $update->update();
+
+        return redirect()->to('/showvenue');
     }
 
     /**
@@ -112,5 +133,9 @@ class VenueController extends Controller
     public function destroy($id)
     {
         //
+        $hapus = Venue::find($id);
+        $hapus->delete();
+
+        return redirect()->to('/showvenue');
     }
 }
