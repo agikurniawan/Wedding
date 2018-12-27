@@ -1,34 +1,24 @@
-sudo: required
-dist: trusty
 language: php
+php:
+  - 7.2
 
-#->versi php
-php : 
-  - 7.1
-  
-branches :
-  only:
-    - master #->qa/staging server
-    - develop #-> DevServer
-
-#-> install environment di OS
-# before_install:
-# - curl -sSfL -o ~/.phpenv/versions/hhvm/bin/phpunit https://phar.phpunit.de/phpunit-5.7.phar
-# - curl -LO https://storage.googleapis.com/kubernetes-release/release/
-# $(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-# /bin/linux/amd64/kubectl
-# - chmod +x ./kubectl #permission
-# - sudo mv ./kubectl /usr/local/bin/kubectl
-
-# build
 before_script:
-  - cp .env.travis .env
-  - composer install --no-interaction
+  - composer self-update
+  - travis_retry composer install --prefer-source --no-interaction --dev
+  - cp .env.example .env
   - php artisan key:generate
-# Test
-script:
-  - ./vendor/bin/phpunit
-  
 
-#deploy
-after_succes:
+script: phpunit
+
+matrix:
+  allow_failures:
+    - php: 7.2
+    - php: hhvm
+  fast_finish: true
+
+notifications:
+    on_success: never
+    on_failure: always
+
+script:
+  - vendor/bin/phpunit
