@@ -4,17 +4,15 @@ language: php
 
 #->versi php
 php : 
-  - 7.2.7
+  - 7.1
   
-  
-
 branches :
   only:
     - master #->qa/staging server
     - develop #-> DevServer
 
 #-> install environment di OS
-before_install:
+# before_install:
 # - curl -sSfL -o ~/.phpenv/versions/hhvm/bin/phpunit https://phar.phpunit.de/phpunit-5.7.phar
 # - curl -LO https://storage.googleapis.com/kubernetes-release/release/
 # $(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
@@ -29,6 +27,8 @@ before_script:
   - php artisan key:generate
 # Test
 script:
+  - ./vendor/bin/phpunit
+  
 
 #deploy
 after_succes:
