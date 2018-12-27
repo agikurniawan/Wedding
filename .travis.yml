@@ -1,23 +1,24 @@
-
 language: php
-
-#->versi php
-php : 
+php:
   - 7.2
-  
-branches :
-  only:
-    - master #->qa/staging server
-    - develop #-> DevServer
-
-
-
 
 before_script:
-  - cp .env.travis .env
-  - composer install --no-interaction
+  - composer self-update
+  - travis_retry composer install --prefer-source --no-interaction --dev
+  - cp .env.example .env
   - php artisan key:generate
-# Test
+
+script: phpunit
+
+matrix:
+  allow_failures:
+    - php: 7.2
+    - php: hhvm
+  fast_finish: true
+
+notifications:
+    on_success: never
+    on_failure: always
+
 script:
-  - ./vendor/bin/phpunit
-  
+  - vendor/bin/phpunit
